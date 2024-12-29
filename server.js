@@ -1,10 +1,12 @@
-const { Server } = require("socket.io");
 const express = require("express");
+const { Server } = require("socket.io");
+const http = require("http");
 
 const app = express();
 
-const PORT = process.env.PORT || 3001;
-const io = new Server(app, {
+const server = http.createServer(app);
+
+const io = new Server(server, {
   cors: {
     origin: "https://vi-chess-testapp.vercel.app/" || "http://localhost:3000/",
     methods: ["GET", "POST"],
@@ -75,14 +77,14 @@ io.on("connection", (socket) => {
     const socketId = userMap.get(toUserId);
     if (socketId) {
       io.to(socketId).emit("updateMove", { move, updatedPiece, lastSquarePreviousPiece });
-      console.log(`${fromUserId} sent move with to ${toUserId}`);
+      console.log(`${fromUserId} sent move to ${toUserId}`);
     } else {
       console.log("Requested user does not exist");
     }
   });
 });
 
-// The app will listen on the dynamic port provided by Render
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

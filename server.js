@@ -10,7 +10,7 @@ const io = require('socket.io')(http)
 //   },
 // });
 
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 10000 || 3001
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html')

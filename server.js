@@ -8,7 +8,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://vi-chess-testapp.vercel.app/" || "http://localhost:3000/",
+    origin: "https://vi-chess-testapp.vercel.app/",
     methods: ["GET", "POST"],
   },
 });

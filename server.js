@@ -1,20 +1,17 @@
-const express = require('express')
-const app = express()
-const http = require('http').Server(app)
-const io = require('socket.io')(http)
+const express = require("express");
+const { Server } = require("socket.io");
+const http = require("http");
 
-// const io = new Server(server, {
-//   cors: {
-//     origin: "https://vi-chess-testapp.vercel.app/",
-//     methods: ["GET", "POST"],
-//   },
-// });
+const app = express();
 
-const port = process.env.PORT || 10000 || 3001
+const server = http.createServer(app);
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html')
-})
+const io = new Server(server, {
+  cors: {
+    origin: "https://vi-chess-testapp.vercel.app/",
+    methods: ["GET", "POST"],
+  },
+});
 
 const userMap = new Map();
 
@@ -87,8 +84,7 @@ io.on("connection", (socket) => {
   });
 });
 
-app.listen(port, () => {
-    http.listen(port, () => {
-      console.log(`App listening on port ${port}`)
-    })
-})
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
